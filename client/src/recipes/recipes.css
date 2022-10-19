@@ -1,0 +1,64 @@
+.recipes {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100%;
+    margin: 10rem auto auto auto;
+    max-width: 500px;
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.list {
+    width: 100%;
+}
+
+.dialog-content {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.dialog-content .info,
+.dialog-content .foods {
+    margin: 0;
+    display: flex;
+    width: 50%;
+    gap: 2rem;
+    flex-direction: column;
+}
+
+.dialog-content .foods {
+    gap: 1rem;
+}
+
+.dialog-content .food {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.info {
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+}
+
+.info small {
+    font-weight: 200;
+    font-size: 11px;
+}
+
+span {
+    display: flex !important;
+    width: 100% !important;
+    justify-content: space-between !important;
+}

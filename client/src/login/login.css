@@ -1,0 +1,19 @@
+h1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 10rem auto auto auto;
+    max-width: 500px;
+    padding: 1rem;
+}
+
+form {
+    width: 100%;
+    margin: auto;
+    max-width: 500px;
+    padding: 1rem;
+    gap: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
