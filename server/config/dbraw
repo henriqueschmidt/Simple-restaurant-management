@@ -1,0 +1,169 @@
+-- public.foods definition
+
+-- Drop table
+
+-- DROP TABLE foods;
+
+CREATE TABLE foods (
+	id serial4 NOT NULL,
+	"name" varchar(255) NULL,
+	qtd int4 NOT NULL DEFAULT 0,
+	CONSTRAINT foods_pkey PRIMARY KEY (id)
+);
+
+
+-- public.menu_tabs definition
+
+-- Drop table
+
+-- DROP TABLE menu_tabs;
+
+CREATE TABLE menu_tabs (
+	id serial4 NOT NULL,
+	"name" varchar(255) NULL,
+	system_id varchar(255) NOT NULL,
+	CONSTRAINT menu_tabs_pkey PRIMARY KEY (id),
+	CONSTRAINT menu_tabs_system_id_unique UNIQUE (system_id)
+);
+
+
+-- public.order_status definition
+
+-- Drop table
+
+-- DROP TABLE order_status;
+
+CREATE TABLE order_status (
+	id serial4 NOT NULL,
+	"name" varchar(255) NULL,
+	system_id varchar(255) NOT NULL,
+	CONSTRAINT order_stauts_pkey PRIMARY KEY (id),
+	CONSTRAINT order_stauts_system_id_unique UNIQUE (system_id)
+);
+
+
+-- public.user_types definition
+
+-- Drop table
+
+-- DROP TABLE user_types;
+
+CREATE TABLE user_types (
+	id serial4 NOT NULL,
+	"name" varchar(255) NULL,
+	system_id varchar(255) NOT NULL,
+	CONSTRAINT user_types_pkey PRIMARY KEY (id),
+	CONSTRAINT user_types_system_id_unique UNIQUE (system_id)
+);
+
+
+-- public.orders definition
+
+-- Drop table
+
+-- DROP TABLE orders;
+
+CREATE TABLE orders (
+	id serial4 NOT NULL,
+	status_id serial4 NOT NULL,
+	code int4 NOT NULL,
+	CONSTRAINT orders_pkey PRIMARY KEY (id),
+	CONSTRAINT fk_status FOREIGN KEY (status_id) REFERENCES order_status(id),
+	CONSTRAINT orders_status_id_fkey FOREIGN KEY (status_id) REFERENCES order_status(id)
+);
+
+
+-- public.recipes definition
+
+-- Drop table
+
+-- DROP TABLE recipes;
+
+CREATE TABLE recipes (
+	id serial4 NOT NULL,
+	"name" varchar(255) NULL,
+	menu_tab_id serial4 NOT NULL,
+	price numeric NULL,
+	CONSTRAINT recipes_pkey PRIMARY KEY (id),
+	CONSTRAINT recipes_menu_tab_id_fkey FOREIGN KEY (menu_tab_id) REFERENCES menu_tabs(id)
+);
+
+
+-- public.users definition
+
+-- Drop table
+
+-- DROP TABLE users;
+
+CREATE TABLE users (
+	id serial4 NOT NULL,
+	"name" varchar(255) NULL,
+	email varchar(255) NOT NULL,
+	username varchar(255) NOT NULL,
+	"password" varchar(255) NOT NULL,
+	dob date NULL,
+	description text NULL,
+	user_type_id serial4 NOT NULL,
+	created_at timestamptz NULL,
+	updated_at timestamptz NULL,
+	CONSTRAINT users_email_unique UNIQUE (email),
+	CONSTRAINT users_pkey PRIMARY KEY (id),
+	CONSTRAINT users_username_unique UNIQUE (username),
+	CONSTRAINT users_user_type_id_fkey FOREIGN KEY (user_type_id) REFERENCES user_types(id)
+);
+
+
+-- public.food_x_recipes definition
+
+-- Drop table
+
+-- DROP TABLE food_x_recipes;
+
+CREATE TABLE food_x_recipes (
+	id serial4 NOT NULL,
+	recipe_id serial4 NOT NULL,
+	food_id serial4 NOT NULL,
+	qtd int4 NOT NULL DEFAULT 1,
+	CONSTRAINT food_x_recipes_pkey PRIMARY KEY (id),
+	CONSTRAINT fk_food FOREIGN KEY (food_id) REFERENCES foods(id),
+	CONSTRAINT fk_recipe FOREIGN KEY (recipe_id) REFERENCES recipes(id),
+	CONSTRAINT food_x_recipes_food_id_fkey FOREIGN KEY (food_id) REFERENCES foods(id),
+	CONSTRAINT food_x_recipes_recipe_id_fkey FOREIGN KEY (recipe_id) REFERENCES recipes(id)
+);
+
+
+-- public.recipe_orders definition
+
+-- Drop table
+
+-- DROP TABLE recipe_orders;
+
+CREATE TABLE recipe_orders (
+	id serial4 NOT NULL,
+	recipe_id serial4 NOT NULL,
+	order_id serial4 NOT NULL,
+	CONSTRAINT recipe_orders_pkey PRIMARY KEY (id),
+	CONSTRAINT fk_order FOREIGN KEY (order_id) REFERENCES orders(id),
+	CONSTRAINT fk_recipe FOREIGN KEY (recipe_id) REFERENCES recipes(id),
+	CONSTRAINT recipe_orders_order_id_fkey FOREIGN KEY (order_id) REFERENCES orders(id),
+	CONSTRAINT recipe_orders_recipe_id_fkey FOREIGN KEY (recipe_id) REFERENCES recipes(id)
+);
+
+
+INSERT INTO user_types (id, "name", system_id) VALUES(1, 'Admin', 'admin');
+INSERT INTO user_types (id, "name", system_id) VALUES(3, 'Chef', 'chef');
+INSERT INTO user_types (id, "name", system_id) VALUES(4, 'Bartender', 'bartender');
+INSERT INTO user_types (id, "name", system_id) VALUES(5, 'Maître', 'maitre');
+INSERT INTO user_types (id, "name", system_id) VALUES(6, 'Commins', 'commins');
+INSERT INTO user_types (id, "name", system_id) VALUES(2, 'Garçom', 'garcom');
+
+
+INSERT INTO order_status (id, "name", system_id) VALUES(1, 'Na fila', 'fila');
+INSERT INTO order_status (id, "name", system_id) VALUES(2, 'Em andamento', 'em_andamento');
+INSERT INTO order_status (id, "name", system_id) VALUES(3, 'Aguardando para entrega', 'aguardando');
+INSERT INTO order_status (id, "name", system_id) VALUES(4, 'Finalizado', 'finalizado');
+
+INSERT INTO menu_tabs (id, "name", system_id) VALUES(1, 'Entradas', 'entradas');
+INSERT INTO menu_tabs (id, "name", system_id) VALUES(3, 'Bebidas', 'bebidas');
+INSERT INTO menu_tabs (id, "name", system_id) VALUES(4, 'Sobremesas', 'sobremesas');
+INSERT INTO menu_tabs (id, "name", system_id) VALUES(2, 'Pratos principais', 'pratos-principais');
